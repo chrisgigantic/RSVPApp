@@ -1,21 +1,41 @@
-// main.js
-
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Configuration ---
+    // Google Form configuration
     const formConfig = {
-        formId: '1FAIpQLSfS5IL1GMOQu7bwehu2iwFmybqqLTRz2O4G7s4GRbGgHSVjjQ', // REPLACE WITH YOUR ACTUAL GOOGLE FORM ID
+        formId: '1FAIpQLSfS5IL1GMOQu7bwehu2iwFmybqqLTRz2O4G7s4GRbGgHSVjjQ',
         fields: {
-            name: 'entry.2029503187',       // REPLACE with your Name field 'entry.xxxx' ID
-            attendance: 'entry.1392189701', // REPLACE with your Attendance field 'entry.xxxx' ID
-            seats: 'entry.619132016',        // REPLACE with your Seats field 'entry.xxxx' ID
-            table: 'entry.1453828050',       // REPLACE with your Table field 'entry.xxxx' ID
-            notes: 'entry.582075689'         // REPLACE with your Notes field 'entry.xxxx' ID
+            name: 'entry.2029503187',
+            attendance: 'entry.1392189701',
+            seats: 'entry.619132016',
+            table: 'entry.1453828050',
+            notes: 'entry.582075689'
         }
     };
 
-    // --- Guest List Data ---
-    // IMPORTANT: In a real application, this data should ideally come from a backend or database.
+    // Real guest list data
     const guestList = [
+        // New guests added
+        { name: "Froelyn Mae P. Resula", seats: 1, table: "", additionalInfo: "Bride" },
+        { name: "Christopher Rae B. Gigantana", seats: 1, table: "", additionalInfo: "Groom" },
+        { name: "Florencia P. Resula", seats: 1, table: "Bride's Family", additionalInfo: "Parent" },
+        { name: "Roel C. Resula", seats: 1, table: "Bride's Family", additionalInfo: "Parent" },
+        { name: "Alexander Roel P. Resula", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "Cirilo Pianar", seats: 1, table: "Bride's Family", additionalInfo: "Grandparent" },
+        { name: "Paula Pianar", seats: 1, table: "Bride's Family", additionalInfo: "Grandparent" },
+        { name: "Rey D. Gigantana", seats: 1, table: "Groom's Family", additionalInfo: "Parent" },
+        { name: "Emilia B. Gigantana", seats: 1, table: "Groom's Family", additionalInfo: "Parent" },
+        { name: "Alyssa Marie Gigantana", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+        { name: "Issa Lee P. Darlo", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+        { name: "Emman Orl Batuigas", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "John Reynald Remegio", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "Vince Winbert Aloba", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "Roston Jan Reboquio", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "John Lyster Martinez", seats: 1, table: "Male Entourage", additionalInfo: "Entourage" },
+        { name: "Fontini Jean Glieganto", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+        { name: "Kimberly Irmano", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+        { name: "Lindy Marie Darlo", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+        { name: "Mary Grace Maglalang", seats: 1, table: "Female Entourage", additionalInfo: "Entourage" },
+
+        // Original guests
         { name: "Zyrene Carabio", seats: 1, table: "Hope", additionalInfo: "Reynald's plus one" },
         { name: "Jancel May Pastor", seats: 1, table: "Trust", additionalInfo: "Lyster's plus one" },
         { name: "Dwyneth Louise Deldig", seats: 1, table: "Trust", additionalInfo: "Vince's plus one" },
@@ -45,152 +65,318 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Pastor Ricardo H. Moraca", seats: 3, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1." },
         { name: "Richel Joy Mendoza", seats: 1, table: "Faith", additionalInfo: "Pastor's assistant" },
         { name: "Rodrigo Lepon", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Mrs. Lepon." }
-        // Add other guests if necessary
     ];
 
-    // --- DOM Elements ---
-    const nameInput = document.getElementById('name');
-    const checkButton = document.getElementById('checkRsvp');
-    const resultCard = document.getElementById('resultCard');
-    const notFoundDiv = document.getElementById('notFound');
-    const foundDiv = document.getElementById('found');
-    const guestNameSpan = document.getElementById('guestName');
-    const seatCountSpan = document.getElementById('seatCount');
-    const eventLocationSpan = document.getElementById('eventLocation');
-    const tableNumberSpan = document.getElementById('tableNumber');
-    const additionalInfoP = document.getElementById('additionalInfo');
-    const tryAgainButton = document.getElementById('tryAgain');
-    const attendanceSectionWrapper = document.getElementById('attendanceSectionWrapper'); // Get the wrapper
+    // DOM elements
+    const elements = {
+        nameInput: document.getElementById('name'),
+        checkButton: document.getElementById('checkRsvp'),
+        resultCard: document.getElementById('resultCard'),
+        notFoundDiv: document.getElementById('notFound'),
+        foundDiv: document.getElementById('found'),
+        guestNameSpan: document.getElementById('guestName'),
+        seatCountSpan: document.getElementById('seatCount'),
+        tableNumberSpan: document.getElementById('tableNumber'),
+        additionalInfoP: document.getElementById('additionalInfo'),
+        tryAgainDiv: document.getElementById('tryAgain'),
+        tryAgainButton: document.getElementById('tryAgainButton'),
+        //formErrorDiv: document.getElementById('formError'), // formErrorDiv is created dynamically now
+        confirmationModal: document.getElementById('confirmationModal'),
+        confirmationMessage: document.getElementById('confirmationMessage'),
+        closeModalButton: document.getElementById('closeModal'),
+        loadingModal: document.getElementById('loadingModal'),
+        hiddenIframe: document.getElementById('hiddenIframe'),
+        searchFormSection: document.getElementById('searchForm'),
+        confirmIdentitySection: document.getElementById('confirmIdentitySection'),
+        resultSection: document.getElementById('resultSection'),
+        confirmNameSpan: document.getElementById('confirmName'),
+        confirmDetailsSpan: document.getElementById('confirmDetails'),
+        confirmYesButton: document.getElementById('confirmYes'),
+        confirmNoButton: document.getElementById('confirmNo'),
+        attendanceSection: document.getElementById('attendanceSection')
+    };
 
-    // Modals
-    const confirmationModal = document.getElementById('confirmationModal');
-    const confirmationMessage = document.getElementById('confirmationMessage');
-    const closeModalButton = document.getElementById('closeModal');
-    const loadingModal = document.getElementById('loadingModal');
-
-    // Hidden iframe
-    const hiddenIframe = document.getElementById('hiddenIframe');
-
-    // State variable
+    // Current guest data
     let currentGuest = null;
-    let originalAttendanceHTML = attendanceSectionWrapper.innerHTML; // Store the initial HTML of the attendance section
+    let matchedGuests = [];
+    let selectedGuestIndex = 0;
 
-    // --- Functions ---
+    // Initialize event listeners
+    function initEventListeners() {
+        // Check button
+        elements.checkButton.addEventListener('click', handleCheckButtonClick);
 
-    /**
-     * Finds a guest by name (case insensitive, partial match).
-     */
-    function findGuest(name) {
-        const lowerCaseName = name.toLowerCase().trim();
-        if (!lowerCaseName) return null;
+        // Try again button
+        elements.tryAgainButton.addEventListener('click', handleTryAgainClick);
 
-        // Prioritize exact match (optional)
-        let found = guestList.find(guest => guest.name.toLowerCase() === lowerCaseName);
-        if (found) return found;
+        // Confirm Yes button
+        elements.confirmYesButton.addEventListener('click', handleConfirmYesClick);
 
-        // Then try partial match
-        found = guestList.find(guest =>
-            guest.name.toLowerCase().includes(lowerCaseName) ||
-            lowerCaseName.includes(guest.name.toLowerCase())
-        );
-        return found || null;
+        // Confirm No button
+        elements.confirmNoButton.addEventListener('click', handleConfirmNoClick);
+
+        // Close modal button
+        elements.closeModalButton.addEventListener('click', function() {
+            elements.confirmationModal.classList.remove('show');
+        });
+
+        // Remove red border when typing
+        elements.nameInput.addEventListener('input', function() {
+            elements.nameInput.classList.remove('border-red-500');
+        });
+
+        // Allow pressing Enter to submit
+        elements.nameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                elements.checkButton.click();
+            }
+        });
+
+        // No need to call attachSubmitAttendanceListener here, it's called when the section is built
     }
 
-    /**
-     * Resets the attendance section to its initial state using the stored HTML.
-     */
-    function resetAttendanceSection() {
-        attendanceSectionWrapper.innerHTML = originalAttendanceHTML;
-        // Re-add event listener to the new submit button if needed (using delegation is better)
-        // Note: The current implementation uses delegation on the wrapper, so this re-adding isn't strictly necessary
+    // Attach submit attendance event listener (called when attendance section is built/reset)
+    function attachSubmitAttendanceListener() {
+        const submitButton = document.getElementById('submitAttendance');
+        if (submitButton) {
+            submitButton.addEventListener('click', handleSubmitAttendance);
+        }
     }
 
-    /**
-     * Shows a loading spinner inside a button.
-     */
-    function showButtonLoading(button, loadingText = "Submitting...") {
-        button.disabled = true;
-        button.innerHTML = `
-            <svg class="spinner spinner-inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    // Handle check button click
+    function handleCheckButtonClick() {
+        const name = elements.nameInput.value.trim();
+
+        if (name === '') {
+            // Shake the input field if empty
+            elements.nameInput.classList.add('border-red-500');
+            elements.nameInput.classList.add('animate-shake');
+            setTimeout(() => {
+                elements.nameInput.classList.remove('animate-shake');
+            }, 500);
+            return;
+        }
+
+        // Find matching guests in our list
+        matchedGuests = findGuests(name);
+
+        if (matchedGuests.length > 0) {
+            // Show identity confirmation for the first match
+            selectedGuestIndex = 0;
+            showIdentityConfirmation(matchedGuests[selectedGuestIndex]);
+        } else {
+            // Show not found result
+            showNotFoundResult();
+        }
+    }
+
+    // Handle confirm yes click
+    function handleConfirmYesClick() {
+        // Set current guest
+        currentGuest = matchedGuests[selectedGuestIndex];
+
+        // Hide confirmation section
+        elements.confirmIdentitySection.classList.add('hidden');
+
+        // Show result section with guest details
+        showGuestDetails(currentGuest);
+    }
+
+    // Handle confirm no click
+    function handleConfirmNoClick() {
+        // Check if there are more matches
+        selectedGuestIndex++;
+
+        if (selectedGuestIndex < matchedGuests.length) {
+            // Show next match
+            showIdentityConfirmation(matchedGuests[selectedGuestIndex]);
+        } else {
+            // No more matches, go back to search
+            elements.confirmIdentitySection.classList.add('hidden');
+            elements.searchFormSection.classList.remove('hidden');
+            elements.nameInput.value = '';
+            elements.nameInput.focus();
+
+            // Show a message that no matches were found
+            showNotFoundResult();
+        }
+    }
+
+    // Handle try again click
+    function handleTryAgainClick() {
+        elements.resultCard.classList.remove('show');
+        elements.resultSection.classList.add('hidden');
+        elements.searchFormSection.classList.remove('hidden');
+        elements.nameInput.value = '';
+        elements.nameInput.focus();
+        elements.tryAgainDiv.classList.add('hidden');
+        currentGuest = null;
+        matchedGuests = [];
+    }
+
+    // Handle submit attendance
+    function handleSubmitAttendance() {
+        const selectedAttendance = document.querySelector('input[name="attendance"]:checked');
+
+        if (!selectedAttendance || !currentGuest) {
+            // Shake the attendance options if none selected
+            document.querySelectorAll('label[for="attending"], label[for="not-attending"]').forEach(label => {
+                label.classList.add('animate-shake');
+                label.classList.add('border-red-300');
+                setTimeout(() => {
+                    label.classList.remove('animate-shake');
+                    label.classList.remove('border-red-300');
+                }, 500);
+            });
+            return;
+        }
+
+        const isAttending = selectedAttendance.value === 'Attending';
+
+        // Show loading state
+        const submitButton = document.getElementById('submitAttendance');
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            ${loadingText}
+            Submitting...
         `;
+
+        // Show loading modal
+        elements.loadingModal.classList.add('show');
+
+        // Submit the form using fetch API
+        submitFormDirectly(currentGuest, selectedAttendance.value);
     }
 
-    /**
-     * Shows the main success/confirmation modal.
-     */
-     function showSuccessModal(isAttending) {
-        confirmationMessage.textContent = isAttending
-            ? 'Thank you for confirming your attendance! We look forward to seeing you.'
-            : 'Thank you for letting us know. We\'ll miss you at our celebration.';
-        confirmationModal.classList.add('show');
+    // Function to show identity confirmation
+    function showIdentityConfirmation(guest) {
+        // Hide search form and result section
+        elements.searchFormSection.classList.add('hidden');
+        elements.resultSection.classList.add('hidden');
+
+        // Update confirmation details
+        elements.confirmNameSpan.textContent = guest.name;
+
+        // Create details text
+        let detailsText = `${guest.seats} seat(s)`;
+        if (guest.table) {
+            detailsText += ` • Table: ${guest.table}`;
+        } else {
+            detailsText += ` • Table: Head Table`;
+        }
+
+        if (guest.additionalInfo) {
+            detailsText += ` • ${guest.additionalInfo}`;
+        }
+
+        elements.confirmDetailsSpan.textContent = detailsText;
+
+        // Show confirmation section with animation
+        elements.confirmIdentitySection.classList.remove('hidden');
+        setTimeout(() => {
+            elements.confirmIdentitySection.querySelector('.result-card').classList.add('fade-in');
+        }, 10);
     }
 
-    /**
-     * Updates the attendance section to show a confirmation message.
-     */
-    function showAttendanceConfirmation(isAttending) {
-        const confirmationDiv = document.createElement('div');
-        confirmationDiv.className = 'attendance-confirmation'; // Use the CSS class
-        confirmationDiv.textContent = isAttending
-            ? '✓ Response Submitted: Attending. Thank you!'
-            : '✓ Response Submitted: Not Attending. Thanks for letting us know.';
+    // Function to show guest details
+    function showGuestDetails(guest) {
+        // Hide confirmation section and show result section
+        elements.confirmIdentitySection.classList.add('hidden');
+        elements.resultSection.classList.remove('hidden');
 
-        // Replace the content of the wrapper
-        attendanceSectionWrapper.innerHTML = '';
-        attendanceSectionWrapper.appendChild(confirmationDiv);
+        // Update guest details
+        elements.notFoundDiv.classList.add('hidden');
+        elements.foundDiv.classList.remove('hidden');
+
+        elements.guestNameSpan.textContent = guest.name;
+        elements.seatCountSpan.textContent = guest.seats;
+        document.getElementById('eventLocation').textContent = "Grand Ballroom"; // Assuming location is static
+
+        // Handle empty table assignment for bride and groom
+        if (guest.table) {
+            elements.tableNumberSpan.textContent = guest.table;
+        } else {
+            elements.tableNumberSpan.textContent = "Head Table";
+        }
+
+        if (guest.additionalInfo) {
+            elements.additionalInfoP.textContent = guest.additionalInfo;
+        } else {
+            elements.additionalInfoP.textContent = "We look forward to seeing you!";
+        }
+
+        // Reset attendance section (rebuilds it)
+        resetAttendanceSection();
+
+        // Show the result card with animation
+        elements.resultCard.classList.add('show');
+        elements.tryAgainDiv.classList.remove('hidden');
     }
 
-    /**
-     * Submits form data directly using Fetch API (no-cors).
-     */
+    // Function to show not found result
+    function showNotFoundResult() {
+        // Hide confirmation section and show result section
+        elements.confirmIdentitySection.classList.add('hidden');
+        elements.resultSection.classList.remove('hidden');
+
+        elements.foundDiv.classList.add('hidden');
+        elements.notFoundDiv.classList.remove('hidden');
+        currentGuest = null;
+
+        // Show the result card with animation
+        elements.resultCard.classList.add('show');
+        elements.tryAgainDiv.classList.remove('hidden');
+    }
+
+    // Function to submit the form directly using fetch API
     function submitFormDirectly(guest, attendanceValue) {
+        // Create form data
         const formData = new FormData();
         formData.append(formConfig.fields.name, guest.name);
         formData.append(formConfig.fields.attendance, attendanceValue);
         formData.append(formConfig.fields.seats, guest.seats);
-        formData.append(formConfig.fields.table, guest.table);
+        formData.append(formConfig.fields.table, guest.table || "Head Table");
         formData.append(formConfig.fields.notes, guest.additionalInfo || '');
 
+        // Create the URL for the form submission
         const formUrl = `https://docs.google.com/forms/d/e/${formConfig.formId}/formResponse`;
 
+        // First attempt: Try using fetch with no-cors mode
         fetch(formUrl, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'no-cors', // This is important for cross-origin requests
             body: formData
         })
         .then(() => {
-            console.log('Form submitted via fetch (no-cors). Success assumed.');
+            // Show success message after a short delay
             setTimeout(() => {
-                loadingModal.classList.remove('show');
-                showSuccessModal(attendanceValue === 'Attending');
-                showAttendanceConfirmation(attendanceValue === 'Attending');
+                showSuccessMessage(attendanceValue === 'Attending');
             }, 1500);
         })
         .catch(error => {
-            console.error('Fetch (no-cors) submission failed:', error);
-            submitViaIframe(guest, attendanceValue); // Fallback
+            console.error('Error submitting form via fetch:', error);
+            // Fallback: Create a form and submit it through the iframe
+            submitViaIframe(guest, attendanceValue);
         });
     }
 
-    /**
-     * Fallback submission method using a hidden iframe.
-     */
+    // Fallback submission method using iframe
     function submitViaIframe(guest, attendanceValue) {
-        console.log('Attempting submission via iframe fallback...');
+        // Create a form element
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = `https://docs.google.com/forms/d/e/${formConfig.formId}/formResponse`;
-        form.target = 'hiddenIframe';
+        form.target = 'hiddenIframe'; // Target the hidden iframe
 
+        // Add form fields
         const fields = [
             { name: formConfig.fields.name, value: guest.name },
             { name: formConfig.fields.attendance, value: attendanceValue },
             { name: formConfig.fields.seats, value: guest.seats },
-            { name: formConfig.fields.table, value: guest.table },
+            { name: formConfig.fields.table, value: guest.table || "Head Table" },
             { name: formConfig.fields.notes, value: guest.additionalInfo || '' }
         ];
 
@@ -202,129 +388,144 @@ document.addEventListener('DOMContentLoaded', function() {
             form.appendChild(input);
         });
 
+        // Append form to body, submit it, then remove it
         document.body.appendChild(form);
-        form.submit();
-
-        setTimeout(() => {
-            if (document.body.contains(form)) {
+        try {
+            form.submit();
+            // Consider success if submit() doesn't throw an error
+            setTimeout(() => {
+                showSuccessMessage(attendanceValue === 'Attending');
                 document.body.removeChild(form);
-            }
-            loadingModal.classList.remove('show');
-            showSuccessModal(attendanceValue === 'Attending');
-            showAttendanceConfirmation(attendanceValue === 'Attending');
-            console.log('Form submitted via iframe. Success assumed.');
-        }, 2500);
+            }, 1500); // Assume submission takes ~1.5s
+        } catch (error) {
+            console.error('Error submitting form via iframe:', error);
+            showErrorMessage(); // Show error if form submission fails
+            document.body.removeChild(form);
+        }
     }
 
-    // --- Event Listeners ---
+    // Function to show success message
+    function showSuccessMessage(isAttending) {
+        // Hide loading modal
+        elements.loadingModal.classList.remove('show');
 
-    // Check Reservation Button
-    checkButton.addEventListener('click', function() {
-        const name = nameInput.value.trim();
+        // Show confirmation modal
+        elements.confirmationMessage.textContent = isAttending ?
+            'Thank you for confirming your attendance! We look forward to seeing you.' :
+            'Thank you for letting us know. We\'ll miss you at our celebration.';
 
-        if (name === '') {
-            nameInput.classList.add('error', 'animate-shake');
-            setTimeout(() => nameInput.classList.remove('animate-shake'), 500);
-            return;
+        elements.confirmationModal.classList.add('show');
+
+        // Update the attendance section to show submitted state
+        const confirmationDiv = document.createElement('div');
+        confirmationDiv.className = 'mt-4 p-3 bg-green-50 text-green-800 rounded-md text-sm';
+        confirmationDiv.innerHTML = isAttending ?
+            'Thank you for confirming your attendance! We look forward to seeing you.' :
+            'Thank you for letting us know. We\'ll miss you at our celebration.';
+
+        // Replace the attendance section with the confirmation
+        elements.attendanceSection.innerHTML = ''; // Clear previous content
+        elements.attendanceSection.appendChild(confirmationDiv);
+    }
+
+    // Function to show error message in the form
+    function showErrorMessage() {
+         // Hide loading modal
+         elements.loadingModal.classList.remove('show');
+
+        // Re-enable the submit button
+        const submitButton = document.getElementById('submitAttendance');
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Submit Response';
         }
-        nameInput.classList.remove('error');
 
-        const guest = findGuest(name);
-        currentGuest = guest;
-
-        if (guest) {
-            guestNameSpan.textContent = guest.name;
-            seatCountSpan.textContent = guest.seats;
-            tableNumberSpan.textContent = guest.table;
-            additionalInfoP.textContent = guest.additionalInfo || "We look forward to celebrating with you!";
-            eventLocationSpan.textContent = "Grand Ballroom"; // Set hardcoded value
-
-            notFoundDiv.classList.add('hidden');
-            foundDiv.classList.remove('hidden');
-            resetAttendanceSection(); // Restore the original attendance HTML
+        // Show the error message div (if it exists)
+        const formErrorDiv = document.getElementById('formError');
+        if (formErrorDiv) {
+             formErrorDiv.classList.remove('hidden');
+             formErrorDiv.textContent = 'There was an error submitting your response. Please try again or contact the host.';
         } else {
-            foundDiv.classList.add('hidden');
-            notFoundDiv.classList.remove('hidden');
+            console.error("Could not find formErrorDiv to display error message.");
         }
+    }
 
-        resultCard.classList.add('show');
-        tryAgainButton.classList.remove('hidden');
-    });
 
-    // Try Again Button
-    tryAgainButton.addEventListener('click', function() {
-        resultCard.classList.remove('show');
-        foundDiv.classList.add('hidden');
-        notFoundDiv.classList.add('hidden');
-        nameInput.value = '';
-        nameInput.classList.remove('error');
-        tryAgainButton.classList.add('hidden');
-        currentGuest = null;
-        nameInput.focus();
-    });
+    // Function to reset (rebuild) the attendance section
+    function resetAttendanceSection() {
+        elements.attendanceSection.innerHTML = `
+            <h3 class="text-sm font-medium text-gray-700 mb-3">Please confirm your attendance:</h3>
 
-    // Submit Attendance Button (using event delegation on the wrapper)
-    attendanceSectionWrapper.addEventListener('click', function(event) {
-        // Check if the clicked element is the submit button
-        if (event.target && event.target.id === 'submitAttendance') {
-            const submitButton = event.target;
-            const formErrorDiv = attendanceSectionWrapper.querySelector('#formError'); // Find error div within the current section
-            const selectedAttendanceRadio = attendanceSectionWrapper.querySelector('input[name="attendance"]:checked');
+            <div class="flex space-x-3 justify-center">
+                <div class="flex-1">
+                    <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
+                    <label for="attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                        <div class="relative">
+                            <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="mt-2 text-xs font-medium text-gray-700">Yes, I am going</span>
+                    </label>
+                </div>
 
-            if (!selectedAttendanceRadio) {
-                if(formErrorDiv){
-                    formErrorDiv.textContent = 'Please select whether you are attending or not.';
-                    formErrorDiv.classList.remove('hidden');
-                }
-                attendanceSectionWrapper.querySelectorAll('.radio-label').forEach(label => {
-                    label.classList.add('animate-shake');
-                    setTimeout(() => label.classList.remove('animate-shake'), 500);
-                 });
-                return;
-            }
+                <div class="flex-1">
+                    <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
+                    <label for="not-attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                        <div class="relative">
+                            <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="mt-2 text-xs font-medium text-gray-700">I can't go</span>
+                    </label>
+                </div>
+            </div>
 
-            if (!currentGuest) {
-                 if(formErrorDiv){
-                    formErrorDiv.textContent = 'Error: Guest details not found. Please try searching again.';
-                    formErrorDiv.classList.remove('hidden');
-                 }
-                return;
-            }
+            <button id="submitAttendance" class="mt-4 w-full py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                Submit Response
+            </button>
 
-            if(formErrorDiv) formErrorDiv.classList.add('hidden'); // Hide error if validation passes
+            <div id="formError" class="mt-3 p-2 bg-red-50 text-red-800 rounded-md text-sm hidden">
+                </div>
+        `;
 
-            showButtonLoading(submitButton, "Submitting...");
-            loadingModal.classList.add('show');
+        // Re-attach event listener to the new button
+        attachSubmitAttendanceListener();
+    }
 
-            const attendanceValue = selectedAttendanceRadio.value;
-            submitFormDirectly(currentGuest, attendanceValue);
+    // Function to find guests by name (case insensitive, partial match)
+    function findGuests(name) {
+        name = name.toLowerCase();
+        // Prioritize exact matches first, then partial matches
+        const exactMatches = guestList.filter(guest => guest.name.toLowerCase() === name);
+        if (exactMatches.length > 0) {
+            return exactMatches;
         }
+        // If no exact match, look for partial matches
+        return guestList.filter(guest =>
+            guest.name.toLowerCase().includes(name) ||
+            name.split(' ').some(part => guest.name.toLowerCase().includes(part) && part.length > 2) // Match parts of the name too
+        );
+    }
+
+    // Listen for iframe load events (useful for debugging iframe submission)
+    elements.hiddenIframe.addEventListener('load', function() {
+        // This will fire when the iframe loads *after* form submission (or initially)
+        console.log('Hidden iframe loaded/reloaded.');
+        // Note: You usually can't access content inside the iframe after a cross-origin submission
     });
 
-
-    // Close Confirmation Modal Button
-    closeModalButton.addEventListener('click', function() {
-        confirmationModal.classList.remove('show');
-    });
-
-    // Input field validation feedback
-    nameInput.addEventListener('input', function() {
-        if (nameInput.value.trim() !== '') {
-            nameInput.classList.remove('error');
-        }
-    });
-
-    // Allow Enter key to trigger search
-    nameInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            checkButton.click();
-        }
-    });
-
-    // Optional: Listen for iframe load (mainly for debugging)
-    hiddenIframe.addEventListener('load', function() {
-        console.log('Hidden iframe loaded. Form submission via iframe likely completed.');
-    });
-
-}); // End DOMContentLoaded
+    // Initialize the app
+    initEventListeners();
+});
