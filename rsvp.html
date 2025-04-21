@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC and FM's RSVP Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f7f5;
+            background-image: linear-gradient(135deg, #f9f7f5 0%, #f5efe9 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .title {
+            font-family: 'Playfair Display', serif;
+        }
+        .card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #718096;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4a5568;
+        }
+        .result-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .result-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .radio-button:checked + label {
+            border-color: #718096;
+            background-color: #f8fafc;
+        }
+        .radio-button:checked + label .check-icon {
+            opacity: 1;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            width: 90%;
+            max-width: 350px;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        /* Mobile-first vertical layout */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 1rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .app-container {
+            max-width: 450px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .header-section {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        .result-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-section {
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content bg-white rounded-lg p-6 text-center">
+            <div id="successContent">
+                <svg class="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="title text-xl font-bold text-gray-800 mb-2">Thank You!</h2>
+                <p id="confirmationMessage" class="text-gray-600 mb-4">Your response has been recorded.</p>
+                <button id="closeModal" class="px-6 py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content bg-white rounded-lg p-6 text-center">
+            <svg class="animate-spin h-10 w-10 text-gray-700 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <h2 class="title text-xl font-bold text-gray-800 mb-2">Submitting Your Response</h2>
+            <p class="text-gray-600">Please wait while we record your response...</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="app-container">
+            <!-- Header -->
+            <div class="header-section">
+                <h1 class="title text-3xl md:text-4xl font-bold text-gray-800 mb-2">RC and FM's RSVP Checker</h1>
+                <p class="text-gray-600 text-sm">Check your reservation details below</p>
+            </div>
+            
+            <!-- RSVP Form -->
+            <div class="form-section">
+                <div class="card bg-white rounded-lg p-6">
+                    <div class="mb-5">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Enter your full name</label>
+                        <input type="text" id="name" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent" placeholder="e.g. John Smith">
+                    </div>
+                    <button id="checkRsvp" class="btn-primary w-full py-3 text-white font-medium rounded-md">Check Reservation</button>
+                </div>
+            </div>
+            
+            <!-- Results Card (Hidden by default) -->
+            <div class="result-section">
+                <div id="resultCard" class="result-card card bg-white rounded-lg p-6 text-center flex-1">
+                    <div id="notFound" class="hidden">
+                        <svg class="w-14 h-14 mx-auto text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h2 class="title text-xl font-bold text-gray-800 mb-2">Not Found</h2>
+                        <p class="text-gray-600 mb-3">We couldn't find your name on our guest list.</p>
+                        <p class="text-gray-500 text-sm">Please check your spelling or contact the host.</p>
+                    </div>
+                    
+                    <div id="found" class="hidden">
+                        <svg class="w-14 h-14 mx-auto text-green-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h2 class="title text-xl font-bold text-gray-800 mb-2">Welcome, <span id="guestName">Guest</span>!</h2>
+                        <p class="text-gray-600 mb-3">We've reserved <span id="seatCount" class="font-bold">0</span> seat(s) for you.</p>
+                        
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="flex items-center mb-1">
+                                <svg class="w-4 h-4 text-gray-700 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span class="text-sm text-gray-700">May 10, 2025</span>
+                            </div>
+                            <div class="flex items-center mb-1">
+                                <svg class="w-4 h-4 text-gray-700 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span id="eventLocation" class="text-sm text-gray-700">Grand Ballroom</span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-700">Table: <span id="tableNumber" class="font-medium">Table 1</span></span>
+                            </div>
+                        </div>
+                        
+                        <p id="additionalInfo" class="text-gray-500 text-sm mb-4"></p>
+                        
+                        <!-- Attendance Confirmation -->
+                        <div id="attendanceSection" class="border-t border-gray-200 pt-4">
+                            <h3 class="text-sm font-medium text-gray-700 mb-3">Please confirm your attendance:</h3>
+                            
+                            <div class="flex space-x-3 justify-center">
+                                <div class="flex-1">
+                                    <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
+                                    <label for="attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                        <div class="relative">
+                                            <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="mt-2 text-xs font-medium text-gray-700">Yes, I am going</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="flex-1">
+                                    <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
+                                    <label for="not-attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                        <div class="relative">
+                                            <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="mt-2 text-xs font-medium text-gray-700">I can't go</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button id="submitAttendance" class="mt-4 w-full py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                                Submit Response
+                            </button>
+                            
+                            <div id="formError" class="mt-3 p-2 bg-red-50 text-red-800 rounded-md text-sm hidden">
+                                There was an error submitting your response. Please try again.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Try again button (only shows after a search) -->
+            <div id="tryAgain" class="footer-section hidden">
+                <button class="text-gray-600 hover:text-gray-800 font-medium text-sm">
+                    ← Try another name
+                </button>
+            </div>
+            
+            <!-- Hidden iframe for form submission -->
+            <iframe id="hiddenIframe" name="hiddenIframe" style="display:none;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Google Form configuration
+            const formConfig = {
+                formId: '1FAIpQLSfS5IL1GMOQu7bwehu2iwFmybqqLTRz2O4G7s4GRbGgHSVjjQ',
+                fields: {
+                    name: 'entry.2029503187',
+                    attendance: 'entry.1392189701',
+                    seats: 'entry.619132016',
+                    table: 'entry.1453828050',
+                    notes: 'entry.582075689'
+                }
+            };
+            
+            // Real guest list data
+            const guestList = [
+                { name: "Zyrene Carabio", seats: 1, table: "Hope", additionalInfo: "Reynald's plus one" },
+                { name: "Jancel May Pastor", seats: 1, table: "Trust", additionalInfo: "Lyster's plus one" },
+                { name: "Dwyneth Louise Deldig", seats: 1, table: "Trust", additionalInfo: "Vince's plus one" },
+                { name: "Pastor Luis Camantigue", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Joy Camantigue." },
+                { name: "Pastor Ronald Sayson", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Esmeraluna Sayson." },
+                { name: "Mr. Landelino Darlo", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Narcisa Darlo." },
+                { name: "Mr. Eduardo Cernal", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Lynette Joy Cernal." },
+                { name: "Mrs. Esmeralda A. Pacilan", seats: 3, table: "Principal Sponsors", additionalInfo: "Attending with: Art Pacilan, Dwayne Pacilan. Note: Group members assigned to different tables (Principal Sponsors, Faith)." },
+                { name: "Elena Mata", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Quirino Mata." },
+                { name: "Nida Inso", seats: 7, table: "Principal Sponsors", additionalInfo: "Attending with: Jonathan Inso, Sheena Inso, Pernie Lepiten, Sophia Lepiten, John Paul Inso, Carlisle Inso. Note: Group members assigned to different tables (Principal Sponsors, Perseverance)." },
+                { name: "Rommel Romo", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Isabel Romo." },
+                { name: "Narpaul Ennon P. Darlo", seats: 2, table: "Secondary Sponsors", additionalInfo: "Attending with: Jovelyn Darlo." },
+                { name: "Lendl John P. Darlo", seats: 2, table: "Secondary Sponsors", additionalInfo: "Attending with: Crissa Suico." },
+                { name: "Janforth Cahutay", seats: 4, table: "Secondary Sponsors", additionalInfo: "Attending with: Charo May Cahutay, Maycael Ryeforth O. Cahutay, Marcael Zyeforth O. Cahutay." },
+                { name: "Ethan Norio", seats: 4, table: "Kindness", additionalInfo: "Attending with: Louise Michael Norio, Mr. Michael Norio, Mrs. Maria Lourdes Norio." },
+                { name: "Erika Mansueto", seats: 1, table: "Faith", additionalInfo: "" },
+                { name: "Angelie Rose G. Navaja", seats: 1, table: "Faith", additionalInfo: "" },
+                { name: "Josefina Cordova", seats: 2, table: "Hope", additionalInfo: "Attending with: Mie Cordova." },
+                { name: "Hanerlie Miano", seats: 2, table: "Kindness", additionalInfo: "Attending with: Raphy Miano." },
+                { name: "Christine Ann Alota", seats: 2, table: "Hope", additionalInfo: "Attending with: Christelle Jade Alota." },
+                { name: "Klent Mark Giltendez", seats: 1, table: "Trust", additionalInfo: "" },
+                { name: "Erykha Aloba", seats: 1, table: "Trust", additionalInfo: "" },
+                { name: "Edison Gilamon", seats: 1, table: "Hope", additionalInfo: "" },
+                { name: "Jorjie Nepangue", seats: 1, table: "Trust", additionalInfo: "" },
+                { name: "Jyza Quijano", seats: 1, table: "Trust", additionalInfo: "" },
+                { name: "Pastor Dennis A. Mendoza", seats: 4, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1, Pastor's +1." },
+                { name: "Pastor Ricardo H. Moraca", seats: 3, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1." },
+                { name: "Richel Joy Mendoza", seats: 1, table: "Faith", additionalInfo: "Pastor's assistant" },
+                { name: "Rodrigo Lepon", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Mrs. Lepon." }
+            ];
+            
+            const nameInput = document.getElementById('name');
+            const checkButton = document.getElementById('checkRsvp');
+            const resultCard = document.getElementById('resultCard');
+            const notFoundDiv = document.getElementById('notFound');
+            const foundDiv = document.getElementById('found');
+            const guestNameSpan = document.getElementById('guestName');
+            const seatCountSpan = document.getElementById('seatCount');
+            const tableNumberSpan = document.getElementById('tableNumber');
+            const additionalInfoP = document.getElementById('additionalInfo');
+            const tryAgainButton = document.getElementById('tryAgain');
+            const submitAttendanceButton = document.getElementById('submitAttendance');
+            const attendanceSection = document.getElementById('attendanceSection');
+            const formErrorDiv = document.getElementById('formError');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const closeModalButton = document.getElementById('closeModal');
+            const loadingModal = document.getElementById('loadingModal');
+            const hiddenIframe = document.getElementById('hiddenIframe');
+            
+            // Current guest data
+            let currentGuest = null;
+            
+            // Event listener for the check button
+            checkButton.addEventListener('click', function() {
+                const name = nameInput.value.trim();
+                
+                if (name === '') {
+                    // Shake the input field if empty
+                    nameInput.classList.add('border-red-500');
+                    nameInput.classList.add('animate-shake');
+                    setTimeout(() => {
+                        nameInput.classList.remove('animate-shake');
+                    }, 500);
+                    return;
+                }
+                
+                // Find the guest in our list
+                const guest = findGuest(name);
+                currentGuest = guest;
+                
+                // Show the appropriate result
+                if (guest) {
+                    notFoundDiv.classList.add('hidden');
+                    foundDiv.classList.remove('hidden');
+                    
+                    guestNameSpan.textContent = guest.name;
+                    seatCountSpan.textContent = guest.seats;
+                    document.getElementById('eventLocation').textContent = "Grand Ballroom";
+                    tableNumberSpan.textContent = guest.table;
+                    
+                    if (guest.additionalInfo) {
+                        additionalInfoP.textContent = guest.additionalInfo;
+                    } else {
+                        additionalInfoP.textContent = "We look forward to seeing you!";
+                    }
+                    
+                    // Reset attendance selection
+                    document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+                        radio.checked = false;
+                    });
+                    
+                    // Reset attendance section if it was previously submitted
+                    resetAttendanceSection();
+                    
+                } else {
+                    foundDiv.classList.add('hidden');
+                    notFoundDiv.classList.remove('hidden');
+                    currentGuest = null;
+                }
+                
+                // Show the result card with animation
+                resultCard.classList.add('show');
+                tryAgainButton.classList.remove('hidden');
+            });
+            
+            // Try again button
+            tryAgainButton.addEventListener('click', function() {
+                resultCard.classList.remove('show');
+                nameInput.value = '';
+                nameInput.focus();
+                tryAgainButton.classList.add('hidden');
+                currentGuest = null;
+            });
+            
+            // Submit attendance button
+            submitAttendanceButton.addEventListener('click', function() {
+                const selectedAttendance = document.querySelector('input[name="attendance"]:checked');
+                
+                if (!selectedAttendance || !currentGuest) {
+                    // Shake the attendance options if none selected
+                    document.querySelectorAll('label[for="attending"], label[for="not-attending"]').forEach(label => {
+                        label.classList.add('animate-shake');
+                        label.classList.add('border-red-300');
+                        setTimeout(() => {
+                            label.classList.remove('animate-shake');
+                            label.classList.remove('border-red-300');
+                        }, 500);
+                    });
+                    return;
+                }
+                
+                const isAttending = selectedAttendance.value === 'Attending';
+                
+                // Show loading state
+                submitAttendanceButton.disabled = true;
+                submitAttendanceButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                `;
+                
+                // Show loading modal
+                loadingModal.classList.add('show');
+                
+                // Submit the form using fetch API
+                submitFormDirectly(currentGuest, selectedAttendance.value);
+            });
+            
+            // Function to submit the form directly using fetch API
+            function submitFormDirectly(guest, attendanceValue) {
+                // Create form data
+                const formData = new FormData();
+                formData.append(formConfig.fields.name, guest.name);
+                formData.append(formConfig.fields.attendance, attendanceValue);
+                formData.append(formConfig.fields.seats, guest.seats);
+                formData.append(formConfig.fields.table, guest.table);
+                formData.append(formConfig.fields.notes, guest.additionalInfo || '');
+                
+                // Create the URL for the form submission
+                const formUrl = `https://docs.google.com/forms/d/e/${formConfig.formId}/formResponse`;
+                
+                // First attempt: Try using fetch with no-cors mode
+                fetch(formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // This is important for cross-origin requests
+                    body: formData
+                })
+                .then(() => {
+                    // Show success message after a short delay
+                    setTimeout(() => {
+                        showSuccessMessage(attendanceValue === 'Attending');
+                    }, 1500);
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                    
+                    // Fallback: Create a form and submit it through the iframe
+                    submitViaIframe(guest, attendanceValue);
+                });
+            }
+            
+            // Fallback submission method using iframe
+            function submitViaIframe(guest, attendanceValue) {
+                // Create a form element
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `https://docs.google.com/forms/d/e/${formConfig.formId}/formResponse`;
+                form.target = 'hiddenIframe';
+                
+                // Add form fields
+                const fields = [
+                    { name: formConfig.fields.name, value: guest.name },
+                    { name: formConfig.fields.attendance, value: attendanceValue },
+                    { name: formConfig.fields.seats, value: guest.seats },
+                    { name: formConfig.fields.table, value: guest.table },
+                    { name: formConfig.fields.notes, value: guest.additionalInfo || '' }
+                ];
+                
+                fields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    form.appendChild(input);
+                });
+                
+                // Append form to body, submit it, then remove it
+                document.body.appendChild(form);
+                form.submit();
+                
+                // Show success message after a short delay
+                setTimeout(() => {
+                    showSuccessMessage(attendanceValue === 'Attending');
+                    document.body.removeChild(form);
+                }, 1500);
+            }
+            
+            // Function to show success message
+            function showSuccessMessage(isAttending) {
+                // Hide loading modal
+                loadingModal.classList.remove('show');
+                
+                // Show confirmation modal
+                confirmationMessage.textContent = isAttending ? 
+                    'Thank you for confirming your attendance! We look forward to seeing you.' :
+                    'Thank you for letting us know. We\'ll miss you at our celebration.';
+                
+                confirmationModal.classList.add('show');
+                
+                // Reset button state
+                submitAttendanceButton.disabled = false;
+                submitAttendanceButton.innerHTML = 'Submit Response';
+                
+                // Update the attendance section to show submitted state
+                const confirmationDiv = document.createElement('div');
+                confirmationDiv.className = 'mt-4 p-3 bg-green-50 text-green-800 rounded-md text-sm';
+                confirmationDiv.innerHTML = isAttending ? 
+                    'Thank you for confirming your attendance! We look forward to seeing you.' :
+                    'Thank you for letting us know. We\'ll miss you at our celebration.';
+                
+                // Replace the attendance section with the confirmation
+                attendanceSection.innerHTML = '';
+                attendanceSection.appendChild(confirmationDiv);
+            }
+            
+            // Close modal button
+            closeModalButton.addEventListener('click', function() {
+                confirmationModal.classList.remove('show');
+            });
+            
+            // Remove red border when typing
+            nameInput.addEventListener('input', function() {
+                nameInput.classList.remove('border-red-500');
+            });
+            
+            // Allow pressing Enter to submit
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkButton.click();
+                }
+            });
+            
+            // Function to find a guest by name (case insensitive, partial match)
+            function findGuest(name) {
+                name = name.toLowerCase();
+                return guestList.find(guest => 
+                    guest.name.toLowerCase().includes(name) || 
+                    name.includes(guest.name.toLowerCase())
+                );
+            }
+            
+            // Function to reset the attendance section
+            function resetAttendanceSection() {
+                // Reset radio buttons
+                document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                // Reset button
+                submitAttendanceButton.disabled = false;
+                submitAttendanceButton.innerHTML = 'Submit Response';
+                
+                // Hide error message
+                formErrorDiv.classList.add('hidden');
+                
+                // Restore original attendance section if it was replaced
+                if (!document.getElementById('submitAttendance')) {
+                    attendanceSection.innerHTML = `
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Please confirm your attendance:</h3>
+                        
+                        <div class="flex space-x-3 justify-center">
+                            <div class="flex-1">
+                                <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
+                                <label for="attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                    <div class="relative">
+                                        <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                            <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="mt-2 text-xs font-medium text-gray-700">Yes, I am going</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex-1">
+                                <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
+                                <label for="not-attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                    <div class="relative">
+                                        <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                                            <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="mt-2 text-xs font-medium text-gray-700">I can't go</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button id="submitAttendance" class="mt-4 w-full py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                            Submit Response
+                        </button>
+                        
+                        <div id="formError" class="mt-3 p-2 bg-red-50 text-red-800 rounded-md text-sm hidden">
+                            There was an error submitting your response. Please try again.
+                        </div>
+                    `;
+                    
+                    // Re-attach event listener to the new button
+                    document.getElementById('submitAttendance').addEventListener('click', submitAttendanceButton.onclick);
+                }
+            }
+            
+            // Add shake animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    50% { transform: translateX(5px); }
+                    75% { transform: translateX(-5px); }
+                }
+                .animate-shake {
+                    animation: shake 0.4s ease-in-out;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Listen for iframe load events to detect form submission completion
+            hiddenIframe.addEventListener('load', function() {
+                // This will fire when the iframe loads after form submission
+                console.log('Form submission completed via iframe');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'933ab424554b4edf',t:'MTc0NTIxNTY3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
