@@ -4,150 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RC and FM's RSVP Checker</title>
-    <!-- Link Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Link your CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content bg-white rounded-lg p-6 text-center">
             <div id="successContent">
-                <!-- Success Icon SVG -->
-                <svg class="modal-icon icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h2 class="title modal-title">Thank You!</h2>
-                <p id="confirmationMessage" class="modal-text">Your response has been recorded.</p>
-                <button id="closeModal" class="btn btn-secondary">Close</button>
+                <svg class="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="title text-xl font-bold text-gray-800 mb-2">Thank You!</h2>
+                <p id="confirmationMessage" class="text-gray-600 mb-4">Your response has been recorded.</p>
+                <button id="closeModal" class="px-6 py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Loading Modal -->
     <div id="loadingModal" class="modal">
-        <div class="modal-content">
-            <!-- Loading Spinner SVG -->
-            <svg class="spinner modal-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <h2 class="title modal-title">Submitting Your Response</h2>
-            <p class="modal-text">Please wait while we record your response...</p>
+        <div class="modal-content bg-white rounded-lg p-6 text-center">
+            <svg class="animate-spin h-10 w-10 text-gray-700 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <h2 class="title text-xl font-bold text-gray-800 mb-2">Submitting Your Response</h2>
+            <p class="text-gray-600">Please wait while we record your response...</p>
         </div>
     </div>
 
-    <!-- Main App Container -->
     <div class="container">
         <div class="app-container">
-            <!-- Header -->
             <div class="header-section">
-                <h1 class="title page-title">RC and FM's RSVP Checker</h1>
-                <p class="subtitle">Check your reservation details below</p>
+                <h1 class="title text-3xl md:text-4xl font-bold text-gray-800 mb-2">RC and FM's RSVP Checker</h1>
+                <p class="text-gray-600 text-sm">Check your reservation details below</p>
             </div>
 
-            <!-- RSVP Form Card -->
-            <div class="form-section">
-                <div class="card">
-                    <div class="form-group">
-                        <label for="name" class="label">Enter your full name</label>
-                        <input type="text" id="name" class="input-field" placeholder="e.g. John Smith">
+            <div id="searchForm" class="form-section">
+                <div class="card bg-white rounded-lg p-6">
+                    <div class="mb-5">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Enter your full name</label>
+                        <input type="text" id="name" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent" placeholder="e.g. John Smith">
                     </div>
-                    <button id="checkRsvp" class="btn btn-primary btn-full">Check Reservation</button>
+                    <button id="checkRsvp" class="btn-primary w-full py-3 text-white font-medium rounded-md">Check Reservation</button>
                 </div>
             </div>
 
-            <!-- Results Card (Initially Hidden) -->
-            <div class="result-section">
-                <div id="resultCard" class="result-card card"> <!-- Initially hidden via CSS opacity/transform -->
-                    <!-- Not Found State -->
-                    <div id="notFound" class="result-state hidden">
-                        <!-- Not Found Icon SVG -->
-                        <svg class="result-icon icon-error" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h2 class="title result-title">Not Found</h2>
-                        <p class="result-text">We couldn't find your name on our guest list.</p>
-                        <p class="result-subtext">Please check your spelling or contact the host.</p>
+            <div id="confirmIdentitySection" class="result-section hidden">
+                <div class="result-card card bg-white rounded-lg p-6 text-center show">
+                    <svg class="w-14 h-14 mx-auto text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h2 class="title text-xl font-bold text-gray-800 mb-2">Is this you?</h2>
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <p id="confirmName" class="font-bold text-gray-800 text-lg mb-1">Guest Name</p>
+                        <p id="confirmDetails" class="text-gray-600 text-sm"></p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button id="confirmYes" class="flex-1 py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+                            Yes, that's me
+                        </button>
+                        <button id="confirmNo" class="flex-1 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 transition-colors">
+                            No, try again
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultSection" class="result-section hidden">
+                <div id="resultCard" class="result-card card bg-white rounded-lg p-6 text-center flex-1">
+                    <div id="notFound" class="hidden">
+                        <svg class="w-14 h-14 mx-auto text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h2 class="title text-xl font-bold text-gray-800 mb-2">Not Found</h2>
+                        <p class="text-gray-600 mb-3">We couldn't find your name on our guest list.</p>
+                        <p class="text-gray-500 text-sm">Please check your spelling or contact the host.</p>
                     </div>
 
-                    <!-- Found State -->
-                    <div id="found" class="result-state hidden">
-                        <!-- Found Icon SVG -->
-                        <svg class="result-icon icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h2 class="title result-title">Welcome, <span id="guestName">Guest</span>!</h2>
-                        <p class="result-text">We've reserved <span id="seatCount" class="font-bold">0</span> seat(s) for you.</p>
+                    <div id="found" class="hidden">
+                        <svg class="w-14 h-14 mx-auto text-green-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h2 class="title text-xl font-bold text-gray-800 mb-2">Welcome, <span id="guestName">Guest</span>!</h2>
+                        <p class="text-gray-600 mb-3">We've reserved <span id="seatCount" class="font-bold">0</span> seat(s) for you.</p>
 
-                        <div class="event-details">
-                            <div class="detail-item">
-                                <!-- Calendar Icon SVG -->
-                                <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <span class="detail-text">May 10, 2025</span>
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="flex items-center mb-1">
+                                <svg class="w-4 h-4 text-gray-700 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span class="text-sm text-gray-700">May 10, 2025</span>
                             </div>
-                            <div class="detail-item">
-                                <!-- Location Icon SVG -->
-                                <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <span id="eventLocation" class="detail-text">Grand Ballroom</span>
+                            <div class="flex items-center mb-1">
+                                <svg class="w-4 h-4 text-gray-700 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span id="eventLocation" class="text-sm text-gray-700">Grand Ballroom</span>
                             </div>
-                             <div class="detail-item">
-                                <!-- You might want an icon for table too -->
-                                <span class="detail-label">Table:</span>
-                                <span id="tableNumber" class="detail-value font-medium">Table 1</span>
+                            <div>
+                                <span class="text-sm text-gray-700">Table: <span id="tableNumber" class="font-medium">Table 1</span></span>
                             </div>
                         </div>
 
-                        <p id="additionalInfo" class="additional-info"></p>
+                        <p id="additionalInfo" class="text-gray-500 text-sm mb-4"></p>
 
-                        <!-- Attendance Confirmation Section -->
-                        <div id="attendanceSectionWrapper"> <!-- Wrapper to easily replace content -->
-                            <div id="attendanceSection" class="attendance-section">
-                                <h3 class="attendance-title">Please confirm your attendance:</h3>
-                                <div class="attendance-options">
-                                    <div class="option-wrapper">
-                                        <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
-                                        <label for="attending" class="radio-label">
-                                            <div class="radio-icon-wrapper">
-                                                <!-- Attending Icon SVG -->
-                                                <svg class="radio-icon icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                <div class="check-icon"> <!-- Initially hidden via CSS -->
-                                                    <!-- Check Icon SVG -->
-                                                    <svg class="check-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                                </div>
-                                            </div>
-                                            <span class="radio-text">Yes, I am going</span>
-                                        </label>
-                                    </div>
-                                    <div class="option-wrapper">
-                                        <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
-                                        <label for="not-attending" class="radio-label">
-                                            <div class="radio-icon-wrapper">
-                                                <!-- Not Attending Icon SVG -->
-                                                <svg class="radio-icon icon-error" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                <div class="check-icon"> <!-- Initially hidden via CSS -->
-                                                    <!-- Check Icon SVG -->
-                                                    <svg class="check-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                                </div>
-                                            </div>
-                                            <span class="radio-text">I can't go</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <button id="submitAttendance" class="btn btn-secondary btn-full btn-submit">Submit Response</button>
-                                <div id="formError" class="form-error hidden">
-                                    There was an error submitting your response. Please try again.
-                                </div>
+                        <div id="attendanceSection" class="border-t border-gray-200 pt-4">
                             </div>
-                        </div> <!-- End attendanceSectionWrapper -->
-                    </div> <!-- End #found -->
-                </div> <!-- End #resultCard -->
-            </div> <!-- End .result-section -->
-
-            <!-- Try Again Button -->
-            <div id="tryAgain" class="footer-section hidden">
-                <button class="btn-link">← Try another name</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Hidden iframe for fallback submission -->
-            <iframe id="hiddenIframe" name="hiddenIframe" style="display:none;"></iframe>
-        </div> <!-- End .app-container -->
-    </div> <!-- End .container -->
+            <div id="tryAgain" class="footer-section hidden">
+                <button id="tryAgainButton" class="text-gray-600 hover:text-gray-800 font-medium text-sm">
+                    ← Try another name
+                </button>
+            </div>
 
-    <!-- Link your JavaScript file -->
-    <script src="main.js"></script>
+            <iframe id="hiddenIframe" name="hiddenIframe" style="display:none;"></iframe>
+        </div>
+    </div>
+
+    <script src="main.js" defer></script>
 </body>
 </html>
