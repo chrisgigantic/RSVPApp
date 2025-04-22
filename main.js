@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         elements.guestNameSpan.textContent = guest.name;
         elements.seatCountSpan.textContent = guest.seats;
-        document.getElementById('eventLocation').textContent = "Grand Ballroom"; // Assuming location is static
+        document.getElementById('eventLocation').innerHTML = "Function Hall, Ma. Lina Building<br>National Highway, Dakit, Bogo City, Cebu"; // Updated location;
 
         // Handle empty table assignment for bride and groom
         if (guest.table) {
