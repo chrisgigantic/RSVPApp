@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Angelie Rose Navaja", seats: 1, table: "Faith", additionalInfo: "" },
         { name: "Josefina Cordova", seats: 2, table: "Hope", additionalInfo: "Attending with: Mie Cordova." },
         { name: "Hanerlie Miano", seats: 2, table: "Kindness", additionalInfo: "Attending with: Raphy Miano." },
-        { name: "Christine Ann Alota", seats: 2, table: "Hope", additionalInfo: "Attending with: Christelle Jade Alota." },
+        { name: "Christelle Jade Alota", seats: 2, table: "Hope", additionalInfo: "Attending with: Christine Ann Alota." },
         { name: "Klent Mark Giltendez", seats: 1, table: "Trust", additionalInfo: "" },
         { name: "Erykha Aloba", seats: 1, table: "Trust", additionalInfo: "" },
         { name: "Edison Gilamon", seats: 1, table: "Hope", additionalInfo: "" },
