@@ -1,0 +1,652 @@
+[
+    // The Couple
+    {
+      "invitationId": "bride",
+      "name": "Froelyn Mae P. Resula",
+      "seatsAllocated": 1,
+      "table": "Head Table",
+      "role": "Bride",
+      "notes": ""
+    },
+    {
+      "invitationId": "groom",
+      "name": "Christopher Rae B. Gigantana",
+      "seatsAllocated": 1,
+      "table": "Head Table",
+      "role": "Groom",
+      "notes": ""
+    },
+    // Bride's Family
+    {
+      "invitationId": "resula_parents",
+      "name": "Florencia P. Resula",
+      "seatsAllocated": 1,
+      "table": "Bride's Family",
+      "role": "Parent of the Bride",
+      "notes": "Part of Resula Parents Invitation"
+    },
+    {
+      "invitationId": "resula_parents",
+      "name": "Roel C. Resula",
+      "seatsAllocated": 1,
+      "table": "Bride's Family",
+      "role": "Parent of the Bride",
+      "notes": "Part of Resula Parents Invitation"
+    },
+    {
+      "invitationId": "pianar_grandparents",
+      "name": "Cirilo Pianar",
+      "seatsAllocated": 1,
+      "table": "Bride's Family",
+      "role": "Grandparent of the Bride",
+      "notes": "Part of Pianar Grandparents Invitation"
+    },
+    {
+      "invitationId": "pianar_grandparents",
+      "name": "Paula Pianar",
+      "seatsAllocated": 1,
+      "table": "Bride's Family",
+      "role": "Grandparent of the Bride",
+      "notes": "Part of Pianar Grandparents Invitation"
+    },
+    // Groom's Family
+    {
+      "invitationId": "gigantana_parents",
+      "name": "Rey D. Gigantana",
+      "seatsAllocated": 1,
+      "table": "Groom's Family",
+      "role": "Parent of the Groom",
+      "notes": "Part of Gigantana Parents Invitation"
+    },
+    {
+      "invitationId": "gigantana_parents",
+      "name": "Emilia B. Gigantana",
+      "seatsAllocated": 1,
+      "table": "Groom's Family",
+      "role": "Parent of the Groom",
+      "notes": "Part of Gigantana Parents Invitation"
+    },
+    // Entourage (Assuming individual invites unless specified as plus one)
+    {
+      "invitationId": "alexander_resula",
+      "name": "Alexander Roel P. Resula",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "alyssa_gigantana",
+      "name": "Alyssa Marie Gigantana",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "issa_darlo",
+      "name": "Issa Lee P. Darlo",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "emman_batuigas",
+      "name": "Emman Orl Batuigas",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "john_remegio", // Primary for plus one group
+      "name": "John Reynald Remegio",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": "Invitation includes Zyrene Carabio"
+    },
+    {
+      "invitationId": "john_remegio", // Linked plus one
+      "name": "Zyrene Carabio",
+      "seatsAllocated": 1,
+      "table": "Hope", // Original table assignment
+      "role": "Reynald's plus one",
+      "notes": "Invited with John Reynald Remegio"
+    },
+     {
+      "invitationId": "vince_aloba", // Primary for plus one group
+      "name": "Vince Winbert Aloba",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": "Invitation includes Dwyneth Louise Deldig"
+    },
+    {
+      "invitationId": "vince_aloba", // Linked plus one
+      "name": "Dwyneth Louise Deldig",
+      "seatsAllocated": 1,
+      "table": "Trust", // Original table assignment
+      "role": "Vince's plus one",
+      "notes": "Invited with Vince Winbert Aloba"
+    },
+    {
+      "invitationId": "roston_reboquio",
+      "name": "Roston Jan Reboquio",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+     {
+      "invitationId": "john_martinez", // Primary for plus one group
+      "name": "John Lyster Martinez",
+      "seatsAllocated": 1,
+      "table": "Male Entourage",
+      "role": "Entourage",
+      "notes": "Invitation includes Jancel May Pastor"
+    },
+    {
+      "invitationId": "john_martinez", // Linked plus one
+      "name": "Jancel May Pastor",
+      "seatsAllocated": 1,
+      "table": "Trust", // Original table assignment
+      "role": "Lyster's plus one",
+      "notes": "Invited with John Lyster Martinez"
+    },
+    {
+      "invitationId": "fontini_giganto",
+      "name": "Fontini Jean Giganto",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "kimberly_logronio",
+      "name": "Kimberly Logroñio",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "lindy_darlo",
+      "name": "Lindy Marie Darlo",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    {
+      "invitationId": "mary_maglalang",
+      "name": "Mary Grace Maglalang",
+      "seatsAllocated": 1,
+      "table": "Female Entourage",
+      "role": "Entourage",
+      "notes": ""
+    },
+    // Principal Sponsors
+    {
+      "invitationId": "camantigue_couple",
+      "name": "Pastor Luis Camantigue",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Camantigue Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "camantigue_couple",
+      "name": "Mrs. Joy Camantigue",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Pastor Luis Camantigue"
+    },
+    {
+      "invitationId": "sayson_couple",
+      "name": "Pastor Ronald Sayson",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Sayson Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "sayson_couple",
+      "name": "Mrs. Esmeraluna Sayson",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Pastor Ronald Sayson"
+    },
+    {
+      "invitationId": "darlo_landelino_couple",
+      "name": "Mr. Landelino Darlo",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Darlo Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "darlo_landelino_couple",
+      "name": "Mrs. Narcisa Darlo",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Mr. Landelino Darlo"
+    },
+    {
+      "invitationId": "cernal_couple",
+      "name": "Mr. Eduardo Cernal",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Cernal Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "cernal_couple",
+      "name": "Mrs. Lynette Joy Cernal",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Mr. Eduardo Cernal"
+    },
+    {
+      "invitationId": "pacilan_group", // Group with potentially different tables
+      "name": "Mrs. Esmeralda A. Pacilan",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors", // Primary table
+      "role": "Principal Sponsor",
+      "notes": "Part of Pacilan Group (3 seats total)"
+    },
+    {
+      "invitationId": "pacilan_group",
+      "name": "Art Pacilan",
+      "seatsAllocated": 1,
+      "table": "Faith", // Specific table noted in original data
+      "role": "Guest",
+      "notes": "Part of Pacilan Group (3 seats total)"
+    },
+    {
+      "invitationId": "pacilan_group",
+      "name": "Dwayne Pacilan",
+      "seatsAllocated": 1,
+      "table": "Faith", // Specific table noted in original data
+      "role": "Guest",
+      "notes": "Part of Pacilan Group (3 seats total)"
+    },
+    {
+      "invitationId": "mata_couple",
+      "name": "Elena Mata",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Mata Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "mata_couple",
+      "name": "Quirino Mata",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Elena Mata"
+    },
+    {
+      "invitationId": "inso_group", // Group with potentially different tables
+      "name": "Nida Inso",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors", // Primary table
+      "role": "Principal Sponsor",
+      "notes": "Part of Inso Group (7 seats total)"
+    },
+    {
+      "invitationId": "inso_group",
+      "name": "Jonathan Inso",
+      "seatsAllocated": 1,
+      "table": "Perseverance", // Assuming rest are at this table based on note
+      "role": "Guest",
+      "notes": "Part of Inso Group (7 seats total)"
+    },
+    {
+      "invitationId": "inso_group",
+      "name": "Sheena Inso",
+      "seatsAllocated": 1,
+      "table": "Perseverance",
+      "role": "Guest",
+      "notes": "Part of Inso Group (7 seats total)"
+    },
+    {
+      "invitationId": "inso_group",
+      "name": "Pernie Lepiten",
+      "seatsAllocated": 1,
+      "table": "Perseverance",
+      "role": "Guest",
+      "notes": "Part of Inso Group (7 seats total)"
+    },
+    {
+      "invitationId": "inso_group",
+      "name": "Sophia Lepiten",
+      "seatsAllocated": 1,
+      "table": "Perseverance",
+      "role": "Guest",
+      "notes": "Part of Inso Group (7 seats total)"
+    },
+    // Note: Original Inso list had 7 people, seats=7, but only 5 names listed in addtl info? Adjusted seats to 5 based on names listed. Please verify.
+     {
+       "invitationId": "inso_group",
+       "name": "John Paul Inso", // Not in original JS addtl info, but maybe intended?
+       "seatsAllocated": 1,
+       "table": "Perseverance",
+       "role": "Guest",
+       "notes": "Part of Inso Group (7 seats total)"
+     },
+     {
+       "invitationId": "inso_group",
+       "name": "Carlisle Inso", // Not in original JS addtl info, but maybe intended?
+       "seatsAllocated": 1,
+       "table": "Perseverance",
+       "role": "Guest",
+       "notes": "Part of Inso Group"(7 seats total)
+    // },
+    {
+      "invitationId": "romo_couple",
+      "name": "Rommel Romo",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Part of Romo Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "romo_couple",
+      "name": "Isabel Romo",
+      "seatsAllocated": 1,
+      "table": "Principal Sponsors",
+      "role": "Principal Sponsor",
+      "notes": "Spouse of Rommel Romo"
+    },
+    // Secondary Sponsors
+    {
+      "invitationId": "darlo_narpaul_couple",
+      "name": "Narpaul Ennon P. Darlo",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Part of Darlo Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "darlo_narpaul_couple",
+      "name": "Jovelyn Darlo",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Spouse of Narpaul Ennon P. Darlo"
+    },
+    {
+      "invitationId": "darlo_lendl_couple",
+      "name": "Lendl John P. Darlo",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Part of Darlo Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "darlo_lendl_couple",
+      "name": "Crissa Suico",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Partner of Lendl John P. Darlo"
+    },
+    {
+      "invitationId": "cahutay_family",
+      "name": "Janforth Cahutay",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Part of Cahutay Family Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "cahutay_family",
+      "name": "Charo May Cahutay",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Secondary Sponsor",
+      "notes": "Spouse of Janforth Cahutay"
+    },
+    {
+      "invitationId": "cahutay_family",
+      "name": "Maycael Ryeforth O. Cahutay",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Child",
+      "notes": "Child of Janforth Cahutay"
+    },
+    {
+      "invitationId": "cahutay_family",
+      "name": "Marcael Zyeforth O. Cahutay",
+      "seatsAllocated": 1,
+      "table": "Secondary Sponsors",
+      "role": "Child",
+      "notes": "Child of Janforth Cahutay"
+    },
+    // Other Guests / Families / Individuals
+    {
+      "invitationId": "norio_family",
+      "name": "Ethan Norio",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Coin Bearer", // Assuming role based on context
+      "notes": "Part of Norio Family Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "norio_family",
+      "name": "Louise Michael Norio",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Guest", // Sibling?
+      "notes": "Part of Norio Family Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "norio_family",
+      "name": "Mr. Michael Norio",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Guest", // Parent
+      "notes": "Part of Norio Family Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "norio_family",
+      "name": "Mrs. Maria Lourdes Norio",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Guest", // Parent
+      "notes": "Part of Norio Family Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "erika_mansueto",
+      "name": "Erika Mansueto",
+      "seatsAllocated": 1,
+      "table": "Faith",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "angelie_navaja",
+      "name": "Angelie Rose G. Navaja",
+      "seatsAllocated": 1,
+      "table": "Faith",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "cordova_couple",
+      "name": "Josefina Cordova",
+      "seatsAllocated": 1,
+      "table": "Hope",
+      "role": "Guest",
+      "notes": "Part of Cordova Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "cordova_couple",
+      "name": "Mie Cordova",
+      "seatsAllocated": 1,
+      "table": "Hope",
+      "role": "Guest",
+      "notes": "Invited with Josefina Cordova"
+    },
+    {
+      "invitationId": "miano_couple",
+      "name": "Hanerlie Miano",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Guest",
+      "notes": "Part of Miano Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "miano_couple",
+      "name": "Raphy Miano",
+      "seatsAllocated": 1,
+      "table": "Kindness",
+      "role": "Guest",
+      "notes": "Invited with Hanerlie Miano"
+    },
+    {
+      "invitationId": "alota_couple", // Assuming couple/family
+      "name": "Christine Ann Alota",
+      "seatsAllocated": 1,
+      "table": "Hope",
+      "role": "Guest",
+      "notes": "Part of Alota Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "alota_couple",
+      "name": "Christelle Jade Alota",
+      "seatsAllocated": 1,
+      "table": "Hope",
+      "role": "Guest",
+      "notes": "Invited with Christine Ann Alota"
+    },
+    {
+      "invitationId": "klent_giltendez",
+      "name": "Klent Mark Giltendez",
+      "seatsAllocated": 1,
+      "table": "Trust",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "erykha_aloba",
+      "name": "Erykha Aloba",
+      "seatsAllocated": 1,
+      "table": "Trust",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "edison_gilamon",
+      "name": "Edison Gilamon",
+      "seatsAllocated": 1,
+      "table": "Hope",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "jorjie_nepangue",
+      "name": "Jorjie Nepangue",
+      "seatsAllocated": 1,
+      "table": "Trust",
+      "role": "Guest",
+      "notes": ""
+    },
+    {
+      "invitationId": "jyza_quijano",
+      "name": "Jyza Quijano",
+      "seatsAllocated": 1,
+      "table": "Trust",
+      "role": "Guest",
+      "notes": ""
+    },
+    // Pastors and Assistants (Placeholders for +1s)
+    {
+      "invitationId": "mendoza_group",
+      "name": "Pastor Dennis A. Mendoza",
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Officiant",
+      "notes": "Part of Mendoza Invitation (4 seats total)"
+    },
+    {
+      "invitationId": "mendoza_group",
+      "name": "Pastor Mendoza Guest 1", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Guest",
+      "notes": "Invited with Pastor Dennis A. Mendoza"
+    },
+    {
+      "invitationId": "mendoza_group",
+      "name": "Pastor Mendoza Guest 2", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Guest",
+      "notes": "Invited with Pastor Dennis A. Mendoza"
+    },
+    {
+      "invitationId": "mendoza_group",
+      "name": "Pastor Mendoza Guest 3", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Guest",
+      "notes": "Invited with Pastor Dennis A. Mendoza"
+    },
+     {
+      "invitationId": "moraca_group",
+      "name": "Pastor Ricardo H. Moraca",
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Officiant",
+      "notes": "Part of Moraca Invitation (3 seats total)"
+    },
+    {
+      "invitationId": "moraca_group",
+      "name": "Pastor Moraca Guest 1", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Guest",
+      "notes": "Invited with Pastor Ricardo H. Moraca"
+    },
+    {
+      "invitationId": "moraca_group",
+      "name": "Pastor Moraca Guest 2", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Patience",
+      "role": "Guest",
+      "notes": "Invited with Pastor Ricardo H. Moraca"
+    },
+    {
+      "invitationId": "richel_mendoza",
+      "name": "Richel Joy Mendoza",
+      "seatsAllocated": 1,
+      "table": "Faith",
+      "role": "Pastor's assistant",
+      "notes": ""
+    },
+    // Lepon Couple
+    {
+      "invitationId": "lepon_couple",
+      "name": "Rodrigo Lepon",
+      "seatsAllocated": 1,
+      "table": "Perseverance",
+      "role": "Guest",
+      "notes": "Part of Lepon Invitation (2 seats total)"
+    },
+    {
+      "invitationId": "lepon_couple",
+      "name": "Mrs. Lepon", // Placeholder Name
+      "seatsAllocated": 1,
+      "table": "Perseverance",
+      "role": "Guest",
+      "notes": "Spouse of Rodrigo Lepon"
+    }
+  ]
