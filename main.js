@@ -335,14 +335,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show the result card with animation
         elements.resultCard.classList.add('show');
         elements.tryAgainDiv.classList.remove('hidden');
-       
-        // Inside showGuestDetails function
-        if (guest.additionalInfo) {
-            // Add "Details: " prefix
-            elements.additionalInfoP.textContent = "Details: " + guest.additionalInfo;
-        } else {
-            elements.additionalInfoP.textContent = "We look forward to seeing you!";
-        }
     }
 
     // Function to show not found result
@@ -544,33 +536,28 @@ function resetAttendanceSection() {
     attachSubmitAttendanceListener();
 }
 
-// Function to find guests by name (case insensitive, partial match)
-function findGuests(name) {
-    const searchNameLower = name.toLowerCase();
-
-    // Prioritize exact matches on the main name first
-    const exactMatches = guestList.filter(guest => guest.name.toLowerCase() === searchNameLower);
-    if (exactMatches.length > 0) {
-        // console.log("Found exact match:", exactMatches); // Optional: for debugging
-        return exactMatches;
+    // Function to find guests by name (case insensitive, partial match)
+    function findGuests(name) {
+        name = name.toLowerCase();
+        // Prioritize exact matches first, then partial matches
+        const exactMatches = guestList.filter(guest => guest.name.toLowerCase() === name);
+        if (exactMatches.length > 0) {
+            return exactMatches;
+        }
+        // If no exact match, look for partial matches
+        return guestList.filter(guest =>
+            guest.name.toLowerCase().includes(name) ||
+            name.split(' ').some(part => guest.name.toLowerCase().includes(part) && part.length > 2) // Match parts of the name too
+        );
     }
 
-    // If no exact name match, look for partial matches on name OR matches within additionalInfo
-    const potentialMatches = guestList.filter(guest => {
-        const guestNameLower = guest.name.toLowerCase();
-        // Get additionalInfo safely, convert to lower case, default to empty string if null/undefined
-        const additionalInfoLower = guest.additionalInfo?.toLowerCase() || '';
-
-        // Check 1: Partial match on the main guest name (includes whole name or significant parts)
-        const partialNameMatch = guestNameLower.includes(searchNameLower) ||
-                                 searchNameLower.split(' ').some(part => guestNameLower.includes(part) && part.length > 2);
-
-        // Check 2: Match found within the additionalInfo string
-        // Add a length check to avoid matching trivial substrings like "a" or "an"
-        const infoMatch = searchNameLower.length > 2 && additionalInfoLower.includes(searchNameLower);
-
-        return partialNameMatch || infoMatch;
+    // Listen for iframe load events (useful for debugging iframe submission)
+    elements.hiddenIframe.addEventListener('load', function() {
+        // This will fire when the iframe loads *after* form submission (or initially)
+        console.log('Hidden iframe loaded/reloaded.');
+        // Note: You usually can't access content inside the iframe after a cross-origin submission
     });
-    // console.log("Found potential matches (partial/info):", potentialMatches); // Optional: for debugging
-    return potentialMatches;
-}
+
+    // Initialize the app
+    initEventListeners();
+});
