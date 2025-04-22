@@ -163,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (matchedGuests.length > 0) {
             // Show identity confirmation for the first match
             selectedGuestIndex = 0;
-            showIdentityConfirmation(matchedGuests[selectedGuestIndex]);
+            // Pass the original search term 'name' as the second argument
+            showIdentityConfirmation(matchedGuests[selectedGuestIndex], name); // <<< MODIFIED
         } else {
             // Show not found result
             showNotFoundResult();
@@ -252,12 +253,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to show identity confirmation
-    function showIdentityConfirmation(guest) {
+    function showIdentityConfirmation(guest, searchedName) { // Added searchedName parameter
         // Hide search form and result section
         elements.searchFormSection.classList.add('hidden');
         elements.resultSection.classList.add('hidden');
 
-        // Update confirmation details
+        // --- Start: Conditional Heading Logic ---
+        const confirmHeading = elements.confirmIdentitySection.querySelector('h2.title');
+        const searchedNameLower = searchedName.toLowerCase();
+        const guestNameLower = guest.name.toLowerCase();
+
+        if (guestNameLower === searchedNameLower) {
+            // Exact match found - Use original wording
+            confirmHeading.textContent = "Is this you?";
+        } else {
+            // Searched name differs from primary guest name (likely found via additionalInfo)
+            confirmHeading.textContent = "Is this your invitation group?";
+            // Optional: Add a small clarifying note if needed, but changing the title might be enough.
+            // Example: confirmHeading.insertAdjacentHTML('afterend', `<p class="text-xs text-slate-500 mt-1">Showing invitation for ${guest.name}</p>`);
+        }
+        // --- End: Conditional Heading Logic ---
+
+        // Update confirmation details (primary guest name is still shown here)
         elements.confirmNameSpan.textContent = guest.name;
 
         // Create details text
@@ -268,8 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
             detailsText += ` • Table: Head Table`;
         }
 
+        // Include the additionalInfo directly so the user can see their name if it's there
         if (guest.additionalInfo) {
-            detailsText += ` • ${guest.additionalInfo}`;
+            // Make additionalInfo more prominent or clearly labeled if desired
+             detailsText += ` • Details: ${guest.additionalInfo}`;
+            // Alternatively, keep it simpler:
+            // detailsText += ` • ${guest.additionalInfo}`;
         }
 
         elements.confirmDetailsSpan.textContent = detailsText;
