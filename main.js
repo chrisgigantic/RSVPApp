@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Jyza Quijano", seats: 1, table: "Trust", additionalInfo: "" },
         { name: "Rev. Dennis A. Mendoza", seats: 4, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1, Pastor's +1." },
         { name: "Rev. Ricardo H. Moraca", seats: 3, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1." },
-        { name: "Richel Joy Mendoza", seats: 1, table: "Faith", additionalInfo: "Pastor's assistant" },
+        { name: "Richel Joy Mendoza", seats: 1, table: "Faith", additionalInfo: "" },
         { name: "Rodrigo Lepon", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Mrs. Lepon." }
     ];
 
