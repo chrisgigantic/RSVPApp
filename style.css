@@ -1,59 +1,79 @@
+/* style.css */
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #f9f7f5;
-    background-image: linear-gradient(135deg, #f9f7f5 0%, #f5efe9 100%);
+    /* Using the lightest cream/off-white from the palette */
+    background-color: #F8F5F1;
+    /* Optional: Subtle gradient using another light shade */
+    background-image: linear-gradient(135deg, #F8F5F1 0%, #F9F1D8 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: #2c3e50; /* Dark blue-grey text for readability */
 }
+
 .title {
     font-family: 'Playfair Display', serif;
+    /* Title color will be set via Tailwind in HTML */
 }
+
 .card {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    background-color: #ffffff; /* Keep cards white for contrast */
 }
+
 .card:hover {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
 }
+
+/* Primary button style using the deep blue */
 .btn-primary {
-    background-color: #718096;
+    background-color: #1A4E76; /* Deep Blue */
+    color: #FFFFFF;
     transition: all 0.3s ease;
 }
 .btn-primary:hover {
-    background-color: #4a5568;
+    background-color: #2E6A99; /* Slightly lighter deep blue */
 }
+
 .result-card {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
 }
+
 .result-card.show {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Radio button styling using palette colors */
 .radio-button:checked + label {
-    border-color: #718096;
-    background-color: #f8fafc;
+    border-color: #1A4E76; /* Deep Blue border */
+    background-color: #EAF3FB; /* Very Light Blue background */
 }
 .radio-button:checked + label .check-icon {
     opacity: 1;
+    color: #1A4E76; /* Deep blue check icon */
 }
+
 .spinner {
     animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(26, 78, 118, 0.5); /* Use semi-transparent deep blue for overlay */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,19 +82,24 @@ body {
     visibility: hidden;
     transition: all 0.3s ease;
 }
+
 .modal.show {
     opacity: 1;
     visibility: visible;
 }
+
 .modal-content {
     transform: translateY(20px);
     transition: all 0.3s ease;
     width: 90%;
     max-width: 350px;
+    background-color: #ffffff; /* Keep modal content white */
 }
+
 .modal.show .modal-content {
     transform: translateY(0);
 }
+
 /* Mobile-first vertical layout */
 .container {
     width: 100%;
@@ -85,6 +110,7 @@ body {
     flex-direction: column;
     flex: 1;
 }
+
 .app-container {
     max-width: 450px;
     width: 100%;
@@ -93,35 +119,63 @@ body {
     flex-direction: column;
     flex: 1;
 }
+
 .header-section {
     margin-bottom: 1.5rem;
     text-align: center;
 }
+
 .form-section {
     margin-bottom: 1.5rem;
 }
+
 .result-section {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
+
 .footer-section {
     margin-top: 1rem;
     text-align: center;
 }
+
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
     50% { transform: translateX(5px); }
     75% { transform: translateX(-5px); }
 }
+
 .animate-shake {
     animation: shake 0.4s ease-in-out;
+}
+
+/* Custom text color utility if needed (alternative to inline arbitrary values) */
+.text-deep-blue { color: #1A4E76; }
+.text-dark-gold { color: #D4A017; }
+.text-medium-blue { color: #4A90E2; }
+.text-lighter-blue { color: #7FB9EF; }
+
+/* Custom background color utility if needed */
+.bg-deep-blue { background-color: #1A4E76; }
+.bg-hover-deep-blue-light:hover { background-color: #2E6A99; }
+.bg-cream { background-color: #F9F1D8; }
+.bg-hover-light-gold:hover { background-color: #F5E08D; }
+
+/* Custom ring color utility */
+.focus\:ring-medium-blue:focus {
+    --tw-ring-color: #4A90E2;
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
