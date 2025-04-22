@@ -451,58 +451,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // Function to reset (rebuild) the attendance section
-    function resetAttendanceSection() {
-        elements.attendanceSection.innerHTML = `
-            <h3 class="text-sm font-medium text-gray-700 mb-3">Please confirm your attendance:</h3>
+// Function to reset (rebuild) the attendance section
+function resetAttendanceSection() {
+    elements.attendanceSection.innerHTML = `
+        <!-- Changed heading color to slate -->
+        <h3 class="text-sm font-medium text-slate-700 mb-3">Please confirm your attendance:</h3>
 
-            <div class="flex space-x-3 justify-center">
-                <div class="flex-1">
-                    <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
-                    <label for="attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
-                        <div class="relative">
-                            <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        <div class="flex space-x-3 justify-center">
+            <div class="flex-1">
+                <input type="radio" id="attending" name="attendance" value="Attending" class="radio-button hidden">
+                <!-- Changed border color, added slate text -->
+                <label for="attending" class="flex flex-col items-center p-3 border-2 border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                    <div class="relative">
+                        <!-- Changed icon color to medium blue -->
+                        <svg class="w-7 h-7 text-[#4A90E2]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <!-- Check icon color defined in CSS -->
+                        <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
-                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
                         </div>
-                        <span class="mt-2 text-xs font-medium text-gray-700">Yes, I am going</span>
-                    </label>
-                </div>
-
-                <div class="flex-1">
-                    <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
-                    <label for="not-attending" class="flex flex-col items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
-                        <div class="relative">
-                            <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
-                                <svg class="w-4 h-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <span class="mt-2 text-xs font-medium text-gray-700">I can't go</span>
-                    </label>
-                </div>
+                    </div>
+                    <!-- Changed text color to slate -->
+                    <span class="mt-2 text-xs font-medium text-slate-700">Yes, I am going</span>
+                </label>
             </div>
 
-            <button id="submitAttendance" class="mt-4 w-full py-2 bg-gray-700 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
-                Submit Response
-            </button>
+            <div class="flex-1">
+                <input type="radio" id="not-attending" name="attendance" value="Not Attending" class="radio-button hidden">
+                 <!-- Changed border color, added slate text -->
+                <label for="not-attending" class="flex flex-col items-center p-3 border-2 border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                    <div class="relative">
+                        <!-- Kept icon color red -->
+                        <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <!-- Check icon color defined in CSS -->
+                        <div class="check-icon absolute top-0 right-0 opacity-0 transition-opacity">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                     <!-- Changed text color to slate -->
+                    <span class="mt-2 text-xs font-medium text-slate-700">I can't go</span>
+                </label>
+            </div>
+        </div>
 
-            <div id="formError" class="mt-3 p-2 bg-red-50 text-red-800 rounded-md text-sm hidden">
-                </div>
-        `;
+        <!-- Changed button to primary style (Deep Blue) -->
+        <button id="submitAttendance" class="mt-4 w-full py-2 bg-[#1A4E76] text-white font-medium rounded-md hover:bg-[#2E6A99] transition-colors">
+            Submit Response
+        </button>
 
-        // Re-attach event listener to the new button
-        attachSubmitAttendanceListener();
-    }
+        <!-- Error message styling (kept red) -->
+        <div id="formError" class="mt-3 p-2 bg-red-50 text-red-800 rounded-md text-sm hidden">
+            </div>
+    `;
+
+    // Re-attach event listener to the new button
+    attachSubmitAttendanceListener();
+}
 
     // Function to find guests by name (case insensitive, partial match)
     function findGuests(name) {
