@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Zyrene Carabio", seats: 1, table: "Hope", additionalInfo: "Reynald's plus one" },
         { name: "Jancel May Pastor", seats: 1, table: "Trust", additionalInfo: "Lyster's plus one" },
         { name: "Dwyneth Louise Deldig", seats: 1, table: "Trust", additionalInfo: "Vince's plus one" },
-        { name: "Ptr. Luis Camantigue", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Joy Camantigue." },
+        { name: "Ptr. Luis Camantigue", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Jocelyn Camantigue." },
         { name: "Ptr. Ronald Sayson", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Esmeraluna Sayson." },
         { name: "Mr. Landelino Darlo", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Narcisa Darlo." },
         { name: "Mr. Eduardo Cernal", seats: 2, table: "Principal Sponsors", additionalInfo: "Attending with: Mrs. Lynette Joy Cernal." },
