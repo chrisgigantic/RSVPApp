@@ -544,16 +544,42 @@ function resetAttendanceSection() {
     // Function to find guests by name (case insensitive, partial match)
     function findGuests(name) {
         name = name.toLowerCase();
-        // Prioritize exact matches first, then partial matches
-        const exactMatches = guestList.filter(guest => guest.name.toLowerCase() === name);
-        if (exactMatches.length > 0) {
-            return exactMatches;
-        }
-        // If no exact match, look for partial matches
-        return guestList.filter(guest =>
-            guest.name.toLowerCase().includes(name) ||
-            name.split(' ').some(part => guest.name.toLowerCase().includes(part) && part.length > 2) // Match parts of the name too
-        );
+        const matchedGuests = guestList.filter(guest => {
+            const guestNameLower = guest.name.toLowerCase();
+            const additionalInfoLower = guest.additionalInfo ? guest.additionalInfo.toLowerCase() : '';
+    
+            // Check primary name (exact match first)
+            if (guestNameLower === name) return true;
+    
+            // Check primary name (partial match)
+            if (guestNameLower.includes(name)) return true;
+    
+            // Check parts of the name against primary name
+            if (name.split(' ').some(part => part.length > 2 && guestNameLower.includes(part))) return true;
+    
+            // Check additionalInfo for the searched name (or parts of it)
+            if (additionalInfoLower.includes(name)) return true;
+            // Optional: More robust check for names within additionalInfo
+            // if (name.split(' ').some(part => part.length > 2 && additionalInfoLower.includes(part))) return true;
+    
+    
+            return false;
+        });
+    
+        // Optional: Prioritize matches where the search term matches the main guest name more closely
+        matchedGuests.sort((a, b) => {
+            const nameA = a.name.toLowerCase();
+            const nameB = b.name.toLowerCase();
+            // Prioritize exact matches
+            if (nameA === name) return -1;
+            if (nameB === name) return 1;
+            // Prioritize includes over additionalInfo match (can refine further)
+            if (nameA.includes(name) && !nameB.includes(name)) return -1;
+            if (!nameA.includes(name) && nameB.includes(name)) return 1;
+            return 0; // Keep original order otherwise
+        });
+    
+        return matchedGuests;
     }
 
     // Listen for iframe load events (useful for debugging iframe submission)
