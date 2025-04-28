@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Rev. Dennis A. Mendoza", seats: 4, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1, Pastor's +1." },
         { name: "Rev. Ricardo H. Moraca", seats: 3, table: "Patience", additionalInfo: "Attending with: Pastor's +1, Pastor's +1." },
         { name: "Richel Joy Mendoza", seats: 1, table: "Faith", additionalInfo: "" },
-        { name: "Generose Mata", seats: 1, table: "Patience", additionalInfo: "" }
-        { name: "Grace Pitogo", seats: 2, table: "Perseverance", additionalInfo: "" }
-        { name: "Efane Arcenal", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Eva Arcenal." }
-        { name: "Tessie Yee", seats: 2, table: "Secondary Sponsors", additionalInfo: "" }
-        { name: "Joselito Ypil", seats: 1, table: "Secondary Sponsors", additionalInfo: "" }       
+        { name: "Generose Mata", seats: 1, table: "Patience", additionalInfo: "" },
+        { name: "Grace Pitogo", seats: 2, table: "Perseverance", additionalInfo: "" },
+        { name: "Efane Arcenal", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Eva Arcenal." },
+        { name: "Tessie Yee", seats: 2, table: "Secondary Sponsors", additionalInfo: "" },
+        { name: "Joselito Ypil", seats: 1, table: "Secondary Sponsors", additionalInfo: "" },      
         { name: "Test", seats: 1, table: "Secondary Sponsors", additionalInfo: "" }
     ];
 
