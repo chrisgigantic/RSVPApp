@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Efane Arcenal", seats: 2, table: "Perseverance", additionalInfo: "Attending with: Eva Arcenal." }
         { name: "Tessie Yee", seats: 2, table: "Secondary Sponsors", additionalInfo: "" }
         { name: "Joselito Ypil", seats: 1, table: "Secondary Sponsors", additionalInfo: "" }
+        {}
+        
+        
     ];
 
     // DOM elements
